@@ -1,0 +1,592 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background-color: #800000;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 40px;
+    font-weight: bold;
+    font-family: monospace;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+h1 {
+    text-align: center;
+    color: #800000;
+    margin-top: 20px;
+    font-family: cursive;
+}
+
+#controls {
+    margin: 10px;
+    text-align: center;
+}
+
+#controls label {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+#controls select, #controls input {
+    margin-right: 20px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    transition: all 0.3s ease;
+}
+
+#controls select:hover, #controls input:hover {
+    background-color: #800000;
+    color: white;
+    transform: scale(1.1);
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+    margin: 20px auto;
+    border: 2px solid #800000;
+    border-radius: 10px;
+    position: relative;
+    min-height: 300px; /* Set a minimum height for the map */
+    z-index: 1;
+}
+
+#routeInfo {
+    width: 100%;
+    margin: 10px auto;
+    border-collapse: collapse;
+    margin-top: 10px;
+    min-width: 600px; /* Minimum width to prevent squishing */
+}
+
+#routeInfo th, #routeInfo td {
+    border: 1px solid #800000;
+    padding: 10px;
+    text-align: center;
+}
+
+#routeInfo th {
+    background-color: #800000;
+    color: white;
+}
+
+.leaflet-marker-icon {
+    transition: transform 0.3s ease;
+}
+
+.leaflet-marker-icon:hover {
+    transform: scale(1.2);
+}
+
+@media (max-width: 1024px) {
+    #map {
+        height: 55vh;
+        width: 92%;
+        min-height: 250px; /* Adjust minimum height for tablets */
+    }
+    #controls select, #controls input {
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        font-size: 30px;
+    }
+    h1 {
+        font-size: 24px;
+    }
+    #map {
+        height: 50vh;
+        width: 95%;
+        min-height: 200px; /* Adjust minimum height for smaller tablets */
+    }
+    #routeInfo th, #routeInfo td {
+        padding: 5px;
+    }
+    .main-container {
+        padding: 10px;
+    }
+    .map-container {
+        height: 50vh;
+        min-height: 250px;
+    }
+    h1 {
+        font-size: 1.5em;
+        margin: 10px 0;
+    }
+    #controls {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        font-size: 24px;
+        padding: 15px 0;
+    }
+    h1 {
+        font-size: 20px;
+    }
+    #map {
+        height: 45vh;
+        width: 95%;
+        min-height: 180px; /* Adjust minimum height for mobile devices */
+    }
+    #controls {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+    #controls select, #controls input {
+        width: 90%;
+        margin: 5px 0;
+    }
+    #routeInfo {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 320px) {
+    header {
+        font-size: 20px;
+    }
+    h1 {
+        font-size: 16px;
+    }
+    #map {
+        height: 40vh;
+        width: 95%;
+        min-height: 160px; /* Adjust minimum height for small mobile devices */
+    }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+    #map {
+        height: 70vh;
+    }
+    header {
+        padding: 10px 0;
+    }
+}
+
+.popup-content {
+    max-width: 300px;
+}
+
+.popup-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px 8px 0 0;
+    margin-bottom: 10px;
+}
+
+.popup-text {
+    padding: 10px;
+}
+
+/* High-DPI Screens */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .legend-color {
+        border: 1px solid rgba(0,0,0,0.2);
+    }
+}
+
+/* Touch-specific styles */
+@media (hover: none) {
+    #controls select:hover, 
+    #controls input:hover {
+        transform: none;
+    }
+    .leaflet-marker-icon:hover {
+        transform: none;
+    }
+}
+
+/* Enhanced Mobile Styles */
+@media (max-width: 480px) {
+    #controls {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    #controls select, 
+    #controls input {
+        width: 100%;
+        margin: 5px 0;
+        height: 40px; /* Larger touch targets */
+        font-size: 16px; /* Prevent iOS zoom on focus */
+    }
+
+    #routeInfo {
+        width: 100%;
+        font-size: 14px;
+        margin: 10px 0;
+    }
+
+    #routeInfo th, 
+    #routeInfo td {
+        padding: 8px 4px;
+    }
+
+    .popup-content {
+        max-width: 250px;
+    }
+
+    .popup-image {
+        height: 120px;
+    }
+}
+
+/* Touch-specific improvements */
+@media (hover: none) {
+    #controls select,
+    #controls input,
+    .leaflet-control-zoom a {
+        min-height: 44px; /* iOS minimum touch target size */
+    }
+
+    .leaflet-popup-close-button {
+        padding: 8px !important;
+    }
+    .map-container {
+        touch-action: pan-y pinch-zoom;
+    }
+    
+    #map {
+        touch-action: none; /* Let Leaflet handle touch events */
+    }
+}
+
+/* Landscape mode adjustments */
+@media (max-width: 900px) and (orientation: landscape) {
+    #map {
+        height: 50vh;
+    }
+
+    header {
+        padding: 10px 0;
+    }
+
+    h1 {
+        margin: 10px 0;
+    }
+}
+
+/* Prevent pull-to-refresh on iOS */
+html, body {
+    overscroll-behavior-y: contain;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+#map-container {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+#legend {
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 10px; /* Adjust this value to position it under the zoom buttons */
+    right: 10px; /* Position it on the right side of the map */
+    z-index: 1000;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+}
+
+#legend h3 {
+    margin: 0 0 10px;
+    font-size: 10px;
+    color: #800000;
+}
+
+#legend ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#legend li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.legend-color {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    border-radius: 50%;
+}
+
+.legend-color.park {
+    background-color: green;
+}
+
+.legend-color.museum {
+    background-color: violet;
+}
+
+.legend-color.church {
+    background-color: blue;
+}
+
+.legend-color.market {
+    background-color: yellow;
+}
+
+.legend-color.attraction {
+    background-color: red;
+}
+
+/* Responsive styles for mobile devices */
+@media (max-width: 768px) {
+    #legend {
+        top: 10px; /* Adjust this value for smaller screens */
+        right: 10px;
+        padding: 8px;
+    }
+
+    #legend h3 {
+        font-size: 14px;
+    }
+
+    #legend ul {
+        padding: 0;
+        margin: 0;
+    }
+
+    #legend li {
+        margin-bottom: 4px;
+    }
+
+    .legend-color {
+        width: 18px;
+        height: 18px;
+        margin-right: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    #legend {
+        top: 10px; /* Adjust this value for smaller screens */
+        right: 5px;
+        padding: 6px;
+    }
+
+    #legend h3 {
+        font-size: 12px;
+    }
+
+    #legend ul {
+        padding: 0;
+        margin: 0;
+    }
+
+    #legend li {
+        margin-bottom: 3px;
+    }
+
+    .legend-color {
+        width: 16px;
+        height: 16px;
+        margin-right: 6px;
+    }
+}
+
+@media (max-width: 320px) {
+    #legend {
+        top: 10px; /* Adjust this value for smaller screens */
+        right: 5px;
+        padding: 5px;
+    }
+
+    #legend h3 {
+        font-size: 10px;
+    }
+
+    #legend ul {
+        padding: 0;
+        margin: 0;
+    }
+
+    #legend li {
+        margin-bottom: 2px;
+    }
+
+    .legend-color {
+        width: 14px;
+        height: 14px;
+        margin-right: 5px;
+    }
+}
+
+.map-container {
+    position: relative;
+    height: 600px; /* Set your desired fixed height */
+    margin-bottom: 20px;
+    width: 100%;
+    height: 60vh; /* Adjust height as needed */
+    min-height: 300px;
+    margin: 20px 0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.route-info-container {
+    margin-top: 20px;
+}
+
+.leaflet-routing-container {
+    position: absolute !important;
+    top: 80px !important;  /* Positions it below zoom controls */
+    left: 10px !important;
+    background-color: white;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+    width: 320px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.leaflet-routing-alt {
+    max-height: none !important;
+}
+
+/* Optional: Style the routing container to match map controls */
+.leaflet-routing-container h2 {
+    font-size: 14px;
+    margin: 0 0 10px 0;
+}
+
+.leaflet-routing-container h3 {
+    font-size: 12px;
+    margin: 0;
+}
+
+.location-tracker {
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+}
+
+#locationButton {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+#locationButton:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+#locationButton:active {
+    transform: scale(0.95);
+}
+
+.permission-dialog {
+    position: fixed;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 1000;
+    opacity: 0;
+    transition: all 0.4s ease;
+}
+
+.permission-dialog.show {
+    top: 20px;
+    opacity: 1;
+}
+
+.permission-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    justify-content: center;
+}
+
+.permission-buttons button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.allow-button {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.deny-button {
+    background-color: #f44336;
+    color: white;
+}
+
+.permission-buttons button:hover {
+    transform: scale(1.05);
+}
+
+#locationStatus {
+    display: block;
+    margin-top: 10px;
+    color: #666;
+    transition: opacity 0.3s ease;
+}
+
+.main-container {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
+    padding: 20px;
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 20px;
+    -webkit-overflow-scrolling: touch;
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit-no">
+    <title>Interactive Travel Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <header>
+        Travel Map
+    </header>
+    <div class="main-container">
+        <h1>Travel Route from LPU Manila to Baguio</h1>
+        <div id="controls">
+            <label for="terminalSelection">Select Terminal:</label>
+            <select id="terminalSelection">
+                <option value="">Select a terminal</option>
+                <option value="victoryCubao">Victory Liner - Cubao</option>
+                <option value="victoryPasay">Victory Liner - Pasay</option>
+                <option value="victorySampaloc">Victory Liner - Sampaloc</option>
+                <option value="genesisPasay">Genesis Bus - Pasay</option>
+                <option value="genesisCubao">Genesis Bus - Cubao</option>
+                <option value="genesisAvenida">Genesis Bus - Avenida</option>
+                <option value="solidNorth">Solid North Transit</option>
+            </select>
+            <label for="departureTime">Departure Time:</label>
+            <input type="time" id="departureTime" value="08:00">
+        </div>
+        <div class="map-container">
+            <div id="map">
+                <div id="legend">
+                    <h3>Tourist Spots</h3>
+                    <ul>
+                        <li><span class="legend-color park"></span> Parks</li>
+                        <li><span class="legend-color museum"></span> Museums</li>
+                        <li><span class="legend-color church"></span> Churches</li>
+                        <li><span class="legend-color market"></span> Markets</li>
+                        <li><span class="legend-color attraction"></span> Attractions</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="location-tracker">
+            <button id="locationButton">Show My Location</button>
+            <span id="locationStatus"></span>
+        </div>
+
+        <div class="table-container">
+            <table id="routeInfo">
+                <thead>
+                    <tr>
+                        <th>Bus Type</th>
+                        <th>Fare (PHP)</th>
+                        <th>Time of Arrival to Baguio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Route information will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>
